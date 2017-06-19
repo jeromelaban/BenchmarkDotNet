@@ -130,7 +130,7 @@ namespace BenchmarkDotNet.Engines
             GC.Collect();
 #if CORE
             return GetAllocatedBytesForCurrentThreadDelegate.Invoke();
-#elif CLASSIC
+#elif CLASSIC || XAMARIN
             return AppDomain.CurrentDomain.MonitoringTotalAllocatedMemorySize;
 #endif
         }

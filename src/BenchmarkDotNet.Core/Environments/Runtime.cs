@@ -7,17 +7,23 @@
         /// </summary>
         public static readonly Runtime Clr = new ClrRuntime();
 
-        /// <summary>
-        /// Mono
-        /// See also: http://www.mono-project.com/
-        /// </summary>
-        public static readonly Runtime Mono = new MonoRuntime();
+		/// <summary>
+		/// Mono
+		/// See also: http://www.mono-project.com/
+		/// </summary>
+		public static readonly Runtime Mono = new MonoRuntime();
 
-        /// <summary>
-        /// Cross-platform Core CLR runtime
-        /// See also: https://docs.microsoft.com/en-us/dotnet/
-        /// </summary>
-        public static readonly Runtime Core = new CoreRuntime();
+		/// <summary>
+		/// Xamarin
+		/// See also: http://www.mono-project.com/
+		/// </summary>
+		public static readonly Runtime Xamarin = new XamarinRuntime();
+
+		/// <summary>
+		/// Cross-platform Core CLR runtime
+		/// See also: https://docs.microsoft.com/en-us/dotnet/
+		/// </summary>
+		public static readonly Runtime Core = new CoreRuntime();
 
         public string Name { get; }
 
@@ -43,17 +49,31 @@
         }
     }
 
-    public class MonoRuntime : Runtime
-    {
-        public string CustomPath { get; }
+	public class MonoRuntime : Runtime
+	{
+		public string CustomPath { get; }
 
-        public MonoRuntime() : base("Mono")
-        {
-        }
+		public MonoRuntime() : base("Mono")
+		{
+		}
 
-        public MonoRuntime(string name, string customPath) : base(name)
-        {
-            CustomPath = customPath;
-        }
-    }
+		public MonoRuntime(string name, string customPath) : base(name)
+		{
+			CustomPath = customPath;
+		}
+	}
+
+	public class XamarinRuntime : Runtime
+	{
+		public string CustomPath { get; }
+
+		public XamarinRuntime() : base("Xamarin")
+		{
+		}
+
+		public XamarinRuntime(string name, string customPath) : base(name)
+		{
+			CustomPath = customPath;
+		}
+	}
 }

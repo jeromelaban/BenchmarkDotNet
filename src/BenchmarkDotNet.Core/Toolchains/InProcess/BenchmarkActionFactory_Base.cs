@@ -86,8 +86,9 @@ namespace BenchmarkDotNet.Toolchains.InProcess
                 var callbackInvokeMethod = callbackField.FieldType.GetTypeInfo().GetMethod(nameof(Action.Invoke));
                 var storeResultField = GetStoreResultField(instanceType, storeResultFieldName, callbackInvokeMethod.ReturnType);
 
-                // void InvokeMultipleEmitted(long x) // instance method associated with instanceType
-                var m = new DynamicMethod("InvokeMultipleEmitted", typeof(void), new[] { instanceType, typeof(long) }, instanceType)
+#if !XAMARIN
+				// void InvokeMultipleEmitted(long x) // instance method associated with instanceType
+				var m = new DynamicMethod("InvokeMultipleEmitted", typeof(void), new[] { instanceType, typeof(long) }, instanceType)
                 {
                     InitLocals = true
                 };
@@ -95,7 +96,39 @@ namespace BenchmarkDotNet.Toolchains.InProcess
                 EmitInvokeMultipleBody(m, callbackField, callbackInvokeMethod, storeResultField, unrollFactor);
 
                 return (Action<long>)m.CreateDelegate(typeof(Action<long>), instance);
-            }
+#else
+				bool noReturnValue = callbackInvokeMethod.ReturnType == typeof(void);
+				bool hasStoreField = !noReturnValue && storeResultField != null;
+				Action<Action> noParamMethod = noReturnValue ? (Action<Action>)callbackInvokeMethod.CreateDelegate(typeof(Action<Action>), instance) : null;
+				Func<Action, object> hasStoreFieldMethod = noReturnValue ? (Func<Action, object>)callbackInvokeMethod.CreateDelegate(typeof(Func<Action, object>), instance) : null;
+
+
+				return invokeCount => {
+
+					if (noReturnValue)
+					{
+						for (int i = 0; i < invokeCount; i++)
+						{
+							noParamMethod((Action)callbackField.GetValue(instance));
+						}
+					}
+					else if (hasStoreField)
+					{
+						for (int i = 0; i < invokeCount; i++)
+						{
+							storeResultField.SetValue(instance, hasStoreFieldMethod((Action)callbackField.GetValue(instance)));
+						}
+					}
+					else
+					{
+						for (int i = 0; i < invokeCount; i++)
+						{
+							hasStoreFieldMethod((Action)callbackField.GetValue(instance));
+						}
+					}
+				};
+#endif
+			}
 
             private static FieldInfo GetCallbackField(Type instanceType, string callbackFieldName)
             {

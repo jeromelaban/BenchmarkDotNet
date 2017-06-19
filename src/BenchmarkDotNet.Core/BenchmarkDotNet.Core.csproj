@@ -1,32 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\build\common.props" />
-  <PropertyGroup>
-    <AssemblyTitle>BenchmarkDotNet.Core</AssemblyTitle>
-    <TargetFrameworks>net46;netcoreapp1.1</TargetFrameworks>
-    <NoWarn>$(NoWarn);1591</NoWarn>
-    <AssemblyName>BenchmarkDotNet.Core</AssemblyName>
-    <PackageId>BenchmarkDotNet.Core</PackageId>
-    <RootNamespace>BenchmarkDotNet</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.3.0" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
-    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.DotNet.InternalAbstractions" Version="1.0.0" />
-    <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="4.3.0" />
-    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
-  </ItemGroup>
+	<Import Project="..\..\build\common.props" />
+	<PropertyGroup>
+		<AssemblyTitle>BenchmarkDotNet.Core</AssemblyTitle>
+		<TargetFrameworks>MonoAndroid60;net46;netcoreapp1.1;xamarin.ios10</TargetFrameworks>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+		<AssemblyName>BenchmarkDotNet.Core</AssemblyName>
+		<PackageId>BenchmarkDotNet.Core</PackageId>
+		<RootNamespace>BenchmarkDotNet</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Templates\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+	</ItemGroup>
+
+	<Import Project="..\crosstargets.props" />
+	
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.3.0" />
+		<Reference Include="System.Management" />
+		<Reference Include="System.Xml" />
+		<Reference Include="System" />
+		<Reference Include="Microsoft.CSharp" />
+	</ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
+		<PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+		<PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.3.0" />
+		<PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
+	</ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'xamarin.ios10' or '$(TargetFramework)' != 'MonoAndroid60'">
+		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.3.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.DotNet.InternalAbstractions" Version="1.0.0" />
+		<PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="1.1.1" />
+		<PackageReference Include="Microsoft.Win32.Registry" Condition=" '$(TargetFramework)' != 'xamarin.ios10' and '$(TargetFramework)' != 'MonoAndroid60'" Version="4.3.0" />
+		<PackageReference Include="System.ValueTuple" Version="4.3.0" />
+		<PackageReference Include="system.threading.tasks.extensions" Version="4.3.0" />
+	</ItemGroup>
 </Project>
