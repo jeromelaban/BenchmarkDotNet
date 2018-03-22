@@ -67,10 +67,14 @@ namespace BenchmarkDotNet.Toolchains.CsProj
         {
             if (!RuntimeInformation.IsWindows())
                 return Net46; // we return .NET 4.6 which during validaiton will tell the user about lack of support
+#if !NETSTANDARD2_0
+			return GetCurrentVersionBasedOnWindowsRegistry();
+#else
+			return Net46;
+#endif
+		}
 
-            return GetCurrentVersionBasedOnWindowsRegistry();
-        }
-
+#if !NETSTANDARD2_0
         // this logic is put to a separate method to avoid any assembly loading issues on non Windows systems
         private static IToolchain GetCurrentVersionBasedOnWindowsRegistry()
         {   
@@ -93,5 +97,6 @@ namespace BenchmarkDotNet.Toolchains.CsProj
                 return Default;
             }
         }
+#endif
     }
 }

@@ -48,3 +48,5 @@ tests/output/*
 artifacts/*
 BDN.Generated
 BenchmarkDotNet.Samples/Properties/launchSettings.json
+/.vs
+/src/BenchmarkDotNet/.mdb

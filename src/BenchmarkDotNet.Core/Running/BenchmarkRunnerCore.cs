@@ -339,9 +339,14 @@ namespace BenchmarkDotNet.Running
             return benchmarks.Where(benchmark => toolchainProvider(benchmark.Job).IsSupported(benchmark, logger, resolver)).ToArray();
         }
 
-        private static string GetRootArtifactsFolderPath() => CombineAndCreate(Directory.GetCurrentDirectory(), "BenchmarkDotNet.Artifacts");
+		private static string GetRootArtifactsFolderPath()
+#if NETSTANDARD2_0
+			 => CombineAndCreate(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "BenchmarkDotNet.Artifacts");
+#else
+			 => CombineAndCreate(Directory.GetCurrentDirectory(), "BenchmarkDotNet.Artifacts");
+#endif
 
-        private static string GetResultsFolderPath(string rootArtifactsFolderPath) => CombineAndCreate(rootArtifactsFolderPath, "results");
+		private static string GetResultsFolderPath(string rootArtifactsFolderPath) => CombineAndCreate(rootArtifactsFolderPath, "results");
 
         private static string CombineAndCreate(string rootFolderPath, string childFolderName)
         {

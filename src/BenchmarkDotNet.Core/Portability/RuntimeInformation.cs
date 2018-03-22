@@ -12,7 +12,7 @@ using BenchmarkDotNet.Extensions;
 using BenchmarkDotNet.Helpers;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Toolchains;
-#if !CORE
+#if !CORE && !NETSTANDARD2_0
 using System.Management;
 
 #endif
@@ -36,30 +36,30 @@ namespace BenchmarkDotNet.Portability
 
         internal static bool IsWindows()
         {
-#if CLASSIC
+#if CLASSIC || NETSTANDARD2_0
             return System.Environment.OSVersion.Platform.ToString().Contains("Win");
 #else
-            return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+			return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 #endif
         }
 
         internal static bool IsLinux()
         {
-#if CLASSIC
-            return System.Environment.OSVersion.Platform == PlatformID.Unix
+#if CLASSIC || NETSTANDARD2_0
+			return System.Environment.OSVersion.Platform == PlatformID.Unix
                    && GetSysnameFromUname().Equals("Linux", StringComparison.InvariantCultureIgnoreCase);
 #else
-            return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+			return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 #endif
         }
 
         internal static bool IsMacOSX()
         {
-#if CLASSIC
-            return System.Environment.OSVersion.Platform == PlatformID.Unix
+#if CLASSIC || NETSTANDARD2_0
+			return System.Environment.OSVersion.Platform == PlatformID.Unix
                    && GetSysnameFromUname().Equals("Darwin", StringComparison.InvariantCultureIgnoreCase);
 #else
-            return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+			return System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 #endif
         }
 
@@ -71,8 +71,8 @@ namespace BenchmarkDotNet.Portability
 
         internal static string GetProcessorName()
         {
-#if !CORE
-            if (IsWindows() && !IsMono())
+#if !CORE && !NETSTANDARD2_0
+			if (IsWindows() && !IsMono())
             {
                 try
                 {
@@ -102,7 +102,7 @@ namespace BenchmarkDotNet.Portability
 
         internal static string GetRuntimeVersion()
         {
-#if CLASSIC
+#if CLASSIC || NETSTANDARD2_0
             if (IsMono())
             {
                 var monoRuntimeType = Type.GetType("Mono.Runtime");
@@ -127,26 +127,28 @@ namespace BenchmarkDotNet.Portability
 
             return $"Clr {System.Environment.Version}";
 #else
-            return System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
+			return System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription;
 #endif
         }
 
         internal static Runtime GetCurrentRuntime()
         {
 #if CLASSIC
-            return IsMono() ? Runtime.Mono : Runtime.Clr;
+			return IsMono() ? Runtime.Mono : Runtime.Clr;
+#elif NETSTANDARD2_0
+			return Runtime.Xamarin;
 #elif CORE
-            return Runtime.Core;
+			return Runtime.Core;
 #endif
-        }
+		}
 
-        public static Platform GetCurrentPlatform() => IntPtr.Size == 4 ? Platform.X86 : Platform.X64;
+		public static Platform GetCurrentPlatform() => IntPtr.Size == 4 ? Platform.X86 : Platform.X64;
 
         internal static IEnumerable<JitModule> GetJitModules()
         {
-#if !CORE
-            return
-                Process.GetCurrentProcess().Modules
+#if !CORE && !NETSTANDARD2_0
+			return
+				Process.GetCurrentProcess().Modules
                     .OfType<ProcessModule>()
                     .Where(module => module.ModuleName.Contains("jit"))
                     .Select(module => new JitModule(Path.GetFileNameWithoutExtension(module.FileName), module.FileVersionInfo.ProductVersion));
@@ -157,19 +159,19 @@ namespace BenchmarkDotNet.Portability
 
         internal static string GetJitModulesInfo()
         {
-#if !CORE
-            return string.Join(";", GetJitModules().Select(m => m.Name + "-v" + m.Version));
+#if !CORE && !NETSTANDARD2_0
+			return string.Join(";", GetJitModules().Select(m => m.Name + "-v" + m.Version));
 #else
-            return Unknown; // TODO: verify if it is possible to get this for CORE
+			return Unknown; // TODO: verify if it is possible to get this for CORE
 #endif
         }
 
         internal static bool HasRyuJit()
         {
-#if CORE
+#if CORE || NETSTANDARD2_0
             return true;
 #else
-            return !IsMono()
+			return !IsMono()
                    && IntPtr.Size == 8
                    && GetConfiguration() != DebugConfigurationName
                    && !new JitHelper().IsMsX64();
@@ -185,16 +187,16 @@ namespace BenchmarkDotNet.Portability
         {
             if (IsMono())
                 return ""; // There is no helpful information about JIT on Mono
-#if CORE
-            // For now, we can say that CoreCLR supports only RyuJIT because we allow our users to run only x64 benchmark for Core.
-            // However if we enable 32bit support for .NET Core 1.1 it won't be true, because right now .NET Core is using Legacy Jit for 32bit.
-            // And 32bit .NET Core has support for Windows now only.
-            // NET Core 1.2 will move from leagacy Jitr for 32bits to RyuJIT which will be used by default.
-            // Most probably then also other OSes will get 32bit support.
-            return "RyuJIT"; // CoreCLR supports only RyuJIT
+#if CORE || NETSTANDARD2_0
+			// For now, we can say that CoreCLR supports only RyuJIT because we allow our users to run only x64 benchmark for Core.
+			// However if we enable 32bit support for .NET Core 1.1 it won't be true, because right now .NET Core is using Legacy Jit for 32bit.
+			// And 32bit .NET Core has support for Windows now only.
+			// NET Core 1.2 will move from leagacy Jitr for 32bits to RyuJIT which will be used by default.
+			// Most probably then also other OSes will get 32bit support.
+			return "RyuJIT"; // CoreCLR supports only RyuJIT
 #else
-            // We are working on Full CLR, so there are only LegacyJIT and RyuJIT
-            var modules = GetJitModules().ToArray();
+			// We are working on Full CLR, so there are only LegacyJIT and RyuJIT
+			var modules = GetJitModules().ToArray();
             string jitName = HasRyuJit() ? "RyuJIT" : "LegacyJIT";
             if (modules.Length == 1)
             {

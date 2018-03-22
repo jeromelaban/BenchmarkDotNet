@@ -24,7 +24,12 @@ namespace BenchmarkDotNet.Toolchains
         {
             switch (runtime)
             {
-                case ClrRuntime clr:
+#if NETSTANDARD2_0
+				case XamarinRuntime xamarin:
+					return XamarinToolchain.Instance;
+#endif
+
+				case ClrRuntime clr:
                 case MonoRuntime mono:
 #if CLASSIC
                     return new Roslyn.RoslynToolchain();
