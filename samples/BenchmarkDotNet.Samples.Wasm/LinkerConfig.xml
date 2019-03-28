@@ -1,0 +1,7 @@
+﻿<linker>
+  <assembly fullname="BenchmarkDotNet.Samples.Wasm" />
+  <assembly fullname="BenchmarkDotNet">
+    <type fullname="BenchmarkDotNet.Toolchains.InProcess.InProcessRunner*" />
+  </assembly>
+
+</linker>
