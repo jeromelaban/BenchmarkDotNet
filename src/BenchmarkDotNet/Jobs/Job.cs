@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Characteristics;
+﻿using System;
+using BenchmarkDotNet.Characteristics;
 using BenchmarkDotNet.Environments;
 using JetBrains.Annotations;
 
@@ -36,6 +37,7 @@ namespace BenchmarkDotNet.Jobs
 
         // Infrastructure
         public static readonly Job InProcess = new Job(nameof(InProcess), InfrastructureMode.InProcess);
+        public static readonly Job InProcessSynchronous = new Job(nameof(InProcessSynchronous), InfrastructureMode.InProcess);
         public static readonly Job InProcessDontLogOutput = new Job(nameof(InProcessDontLogOutput), InfrastructureMode.InProcessDontLogOutput);
 
         public Job() : this((string)null) { }

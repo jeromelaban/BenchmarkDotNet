@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using BenchmarkDotNet.Analysers;
 using BenchmarkDotNet.Columns;
@@ -87,5 +88,7 @@ namespace BenchmarkDotNet.Configs
         public IEnumerable<HardwareCounter> GetHardwareCounters() => Array.Empty<HardwareCounter>();
 
         public IEnumerable<IFilter> GetFilters() => Array.Empty<IFilter>();
+
+        public static bool SupportsThreading { get; } = !RuntimeInformation.IsOSPlatform(OSPlatform.Create("WEBASSEMBLY"));
     }
 }
