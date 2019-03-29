@@ -18,7 +18,7 @@
         LinkToOriginalApp="https://github.com/dotnet/BenchmarkDotNet"
         AppName="BenchmarkDotNet Live"
         AppAuthor="Uno Platform">
-    <local:BenchmarkControl Grid.Row="1" />
+      <local:BenchmarkControl Grid.Row="1" />
     </banner:BannerControl>
   </Grid>
 </Page>

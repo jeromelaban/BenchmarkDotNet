@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Uno.Foundation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -61,12 +62,16 @@ namespace BenchmarkDotNet.Live.Shared
 
         private async Task Run()
         {
+#if __WASM__
+            WebAssemblyRuntime.InvokeJS("Uno.UI.Demo.Analytics.reportPageView('benchmarkRun');");
+#endif
+
             runButton.IsEnabled = false;
 
             try
             {
 
-                await SetStatus($"Building source");
+                await SetStatus($"Compiling source");
                 var config = new CoreConfig(_logger);
 
                 var assembly = await SampleRunner.Build(sources.Text);
@@ -92,13 +97,6 @@ namespace BenchmarkDotNet.Live.Shared
             runStatus.Text = status;
             await Task.Yield();
         }
-
-        private IEnumerable<Type> EnumerateBenchmarks(IConfig config)
-            => from type in GetType().GetTypeInfo().Assembly.GetTypes()
-               where !type.IsGenericType
-               where type.Namespace?.StartsWith(BenchmarksBaseNamespace) ?? false
-               where BenchmarkConverter.TypeToBenchmarks(type, config).BenchmarksCases.Length != 0
-               select type;
 
         public class CoreConfig : ManualConfig
         {
