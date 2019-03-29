@@ -7,12 +7,55 @@
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
     <NoWarn>NU1701</NoWarn>
     <WasmShellGenerateCompressedFiles Condition="'$(Configuration)'!='Release'">false</WasmShellGenerateCompressedFiles>
+    <WasmShellMonoRuntimeExecutionMode Condition="$([MSBuild]::IsOsUnixLike())">InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>
     <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="..\BenchmarkDotNet.Live.UWP\Assets\*.png" Link="Assets\%(FileName)%(Extension)" />
     <Content Include="Fonts\winjs-symbols.woff2" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <MonoRuntimeMixedModeExcludedAssembly Include="BenchmarkDotNet.Annotations" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="BenchmarkDotNet" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="BenchmarkDotNet.Live.Wasm" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="CommandLine" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.CodeAnalysis" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.CodeAnalysis.CSharp" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.CodeAnalysis.Workspaces" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.DotNet.PlatformAbstractions" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Extensions.Logging.Abstractions" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Extensions.Logging" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Practices.ServiceLocation" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Mono.Security" />
+    <!--<MonoRuntimeMixedModeExcludedAssembly Include="mscorlib" />-->
+    <!--<MonoRuntimeMixedModeExcludedAssembly Include="System" />-->
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.CodeDom" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Collections.Immutable" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.ComponentModel.Composition" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Composition.AttributedModel" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Composition.Hosting" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Composition.Runtime" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Composition.TypedParts" />
+    <!--<MonoRuntimeMixedModeExcludedAssembly Include="System.Core" />-->
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Drawing.Common" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Management" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Net.Http" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Numerics" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Reflection.Metadata" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Text.Encoding.CodePages" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Xml" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Xml.Linq" />
+    <!--<MonoRuntimeMixedModeExcludedAssembly Include="Uno" />-->
+    <!--<MonoRuntimeMixedModeExcludedAssembly Include="Uno.Core" />-->
+    <MonoRuntimeMixedModeExcludedAssembly Include="Uno.Foundation" />
+    <!--<MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI" />-->
+    <MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI.Sample.Banner" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI.Wasm" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Uno.Xaml" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="WebAssembly.Bindings" />
+  </ItemGroup>
+  
   <ItemGroup>
     <EmbeddedResource Include="WasmCSS\Fonts.css" />
     <EmbeddedResource Include="WasmScripts\*.js" />
