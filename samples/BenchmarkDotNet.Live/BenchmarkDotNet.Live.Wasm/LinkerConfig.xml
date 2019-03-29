@@ -1,0 +1,24 @@
+﻿<linker>
+  <assembly fullname="BenchmarkDotNet.Live.Wasm" />
+  <assembly fullname="Uno.UI" />
+
+  <assembly fullname="BenchmarkDotNet" />
+  <assembly fullname="BenchmarkDotNet.Annotations" />
+
+  <assembly fullname="System.Core">
+	<!-- This is required by JSon.NET and any expression.Compile caller -->
+	<type fullname="System.Linq.Expressions*" />
+  </assembly>
+  
+  <!-- Roslyn -->
+  <assembly fullname="Microsoft.CodeAnalysis"/>
+  <assembly fullname="Microsoft.CodeAnalysis.CSharp"/>
+  <assembly fullname="Microsoft.CodeAnalysis.Workspaces"/>
+  <assembly fullname="System.ComponentModel.Composition"/>
+  <assembly fullname="System.Composition.Hosting"/>
+  <assembly fullname="System.Composition.Runtime"/>
+  <assembly fullname="System.Composition.AttributedModel"/>
+  <assembly fullname="System.Composition.TypedParts"/>
+  <assembly fullname="mscorlib"/>
+
+</linker>
