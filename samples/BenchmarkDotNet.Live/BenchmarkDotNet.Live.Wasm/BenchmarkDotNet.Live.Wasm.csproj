@@ -46,10 +46,10 @@
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Text.Encoding.CodePages" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Xml" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Xml.Linq" />
-    <!--<MonoRuntimeMixedModeExcludedAssembly Include="Uno" />-->
-    <!--<MonoRuntimeMixedModeExcludedAssembly Include="Uno.Core" />-->
+    <MonoRuntimeMixedModeExcludedAssembly Include="Uno" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Uno.Core" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Uno.Foundation" />
-    <!--<MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI" />-->
+    <MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI.Sample.Banner" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI.Wasm" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Uno.Xaml" />
