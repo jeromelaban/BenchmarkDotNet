@@ -1,0 +1,55 @@
+﻿<ContentControl
+    x:Class="BenchmarkDotNet.Live.Shared.BenchmarkControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BenchmarkDotNet.Live.Shared"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+  <Grid>
+    <Grid>
+      
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+
+      <StackPanel Grid.Row="0" Padding="12">
+        <Button x:Name="runButton"
+          Content="Compile and Run Benchmark"
+          Tapped="OnRunTests" />
+        <TextBlock x:Name="runStatus" Text="Ready." />
+      </StackPanel>
+
+      <!-- Input -->
+      <Border Grid.Row="1">
+        <TextBox x:Name="sources"
+             Background="White"
+             FontFamily="Courier New"
+             AcceptsReturn="true"
+             Foreground="Black" />
+      </Border>
+
+      <!-- Result -->
+      <Border Background="#1E1E1E"
+          BorderBrush="DarkGray"
+          BorderThickness="2"
+          Grid.Row="1" Grid.Column="1">
+        <ScrollViewer HorizontalScrollBarVisibility="Visible">
+          <TextBlock x:Name="runLogs"
+                 Text=""
+                 Foreground="#F1F1F1"
+                 MaxLines="0"
+                 FontFamily="Courier New" />
+        </ScrollViewer>
+      </Border>
+    </Grid>
+  </Grid>
+</ContentControl>
