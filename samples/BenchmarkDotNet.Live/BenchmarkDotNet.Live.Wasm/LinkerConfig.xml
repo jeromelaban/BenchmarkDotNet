@@ -1,6 +1,7 @@
 ﻿<linker>
   <assembly fullname="BenchmarkDotNet.Live.Wasm" />
   <assembly fullname="Uno.UI" />
+  <assembly fullname="Uno.Foundation" />
 
   <assembly fullname="BenchmarkDotNet" />
   <assembly fullname="BenchmarkDotNet.Annotations" />
