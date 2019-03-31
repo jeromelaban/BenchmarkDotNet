@@ -83,7 +83,7 @@
     <PackageReference Include="Uno.UI" Version="1.45.0-dev.1067" />
     <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.0-dev.238" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.10.0" />
-    <PackageReference Include="Uno.UI.Sample.Banner" Version="1.44.0-dev.16" />
+    <PackageReference Include="Uno.UI.Sample.Banner" Version="1.44.0-dev.14" />
     <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.0-dev.238" />
   </ItemGroup>
   <ItemGroup>
