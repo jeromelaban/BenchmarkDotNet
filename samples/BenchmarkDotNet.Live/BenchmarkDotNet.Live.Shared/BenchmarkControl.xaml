@@ -24,7 +24,7 @@
       <StackPanel Grid.Row="0" Padding="12">
         <Button x:Name="runButton"
           Content="Compile and Run Benchmark"
-          Tapped="OnRunTests" />
+          Click="OnRunTests" />
         <TextBlock x:Name="runStatus" Text="Ready." />
       </StackPanel>
 
