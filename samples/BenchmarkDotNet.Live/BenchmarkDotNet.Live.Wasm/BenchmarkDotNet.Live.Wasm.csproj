@@ -37,7 +37,7 @@
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Composition.Hosting" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Composition.Runtime" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Composition.TypedParts" />
-    <!--<MonoRuntimeMixedModeExcludedAssembly Include="System.Core" />-->
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Core" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Drawing.Common" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Management" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Net.Http" />
@@ -46,10 +46,10 @@
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Text.Encoding.CodePages" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Xml" />
     <MonoRuntimeMixedModeExcludedAssembly Include="System.Xml.Linq" />
-    <MonoRuntimeMixedModeExcludedAssembly Include="Uno" />
+    <!--<MonoRuntimeMixedModeExcludedAssembly Include="Uno" />-->
     <MonoRuntimeMixedModeExcludedAssembly Include="Uno.Core" />
-    <MonoRuntimeMixedModeExcludedAssembly Include="Uno.Foundation" />
-    <MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI" />
+    <!--<MonoRuntimeMixedModeExcludedAssembly Include="Uno.Foundation" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI" />-->
     <MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI.Sample.Banner" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Uno.UI.Wasm" />
     <MonoRuntimeMixedModeExcludedAssembly Include="Uno.Xaml" />
@@ -81,10 +81,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Uno.UI" Version="1.45.0-dev.1067" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.0-dev.236" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.0-dev.238" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.10.0" />
     <PackageReference Include="Uno.UI.Sample.Banner" Version="1.44.0-dev.14" />
-    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.0-dev.236" />
+    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.0-dev.238" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\BenchmarkDotNet.Annotations\BenchmarkDotNet.Annotations.csproj" />
