@@ -1,3 +1,10 @@
+# BenchmarkDotNet for the Uno Platform
+
+This repository is the home of the [BenchmarkDotNet Live](https://benchmarkdotnet.platform.uno/) WebAssembly application.
+
+It uses the [Uno Platform](http://platform.uno), [Roslyn](https://github.com/dotnet/roslyn) [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) to benchmark C# code in the browser.
+
+![](docs/images/bnd-live.png)
 
 ![](docs/logo/logo-wide.png)
 
