@@ -39,8 +39,7 @@ namespace BenchmarkDotNet.Portability
         /// "The north star for CoreRT is to be a flavor of .NET Core" -> CoreRT reports .NET Core everywhere
         /// </summary>
         public static bool IsCoreRT 
-            => FrameworkDescription.StartsWith(".NET Core", StringComparison.OrdinalIgnoreCase) 
-               && string.IsNullOrEmpty(typeof(object).Assembly.Location); // but it's merged to a single .exe and .Location returns null here ;)
+            => Type.GetType("System.Runtime.Loader.AssemblyLoadContext") != null;
 
         public static bool InDocker => string.Equals(Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER"), "true");
                 
@@ -137,44 +136,44 @@ namespace BenchmarkDotNet.Portability
         
         internal static string GetRuntimeVersion()
         {
-            if (IsMono)
-            {
-                var monoRuntimeType = Type.GetType("Mono.Runtime");
-                var monoDisplayName = monoRuntimeType?.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
-                if (monoDisplayName != null)
-                {
-                    string version = monoDisplayName.Invoke(null, null)?.ToString();
-                    if (version != null)
-                    {
-                        int bracket1 = version.IndexOf('('), bracket2 = version.IndexOf(')');
-                        if (bracket1 != -1 && bracket2 != -1)
-                        {
-                            string comment = version.Substring(bracket1 + 1, bracket2 - bracket1 - 1);
-                            var commentParts = comment.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                            if (commentParts.Length > 2)
-                                version = version.Substring(0, bracket1) + "(" + commentParts[0] + " " + commentParts[1] + ")";
-                        }
-                    }
+			if (IsMono)
+			{
+				var monoRuntimeType = Type.GetType("Mono.Runtime");
+				var monoDisplayName = monoRuntimeType?.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
+				if (monoDisplayName != null)
+				{
+					string version = monoDisplayName.Invoke(null, null)?.ToString();
+					if (version != null)
+					{
+						int bracket1 = version.IndexOf('('), bracket2 = version.IndexOf(')');
+						if (bracket1 != -1 && bracket2 != -1)
+						{
+							string comment = version.Substring(bracket1 + 1, bracket2 - bracket1 - 1);
+							var commentParts = comment.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+							if (commentParts.Length > 2)
+								version = version.Substring(0, bracket1) + "(" + commentParts[0] + " " + commentParts[1] + ")";
+						}
+					}
 
-                    return "Mono " + version;
-                }
-            }
-            else if (IsFullFramework)
-            {
-                string frameworkVersion = FrameworkVersionHelper.GetCurrentNetFrameworkVersion();
-                string clrVersion = Environment.Version.ToString();
-                return $".NET Framework {frameworkVersion} (CLR {clrVersion})";
-            }
-            else if (IsNetCore)
-            {
-                string runtimeVersion = GetNetCoreVersion() ?? "?";
+					return "Mono " + version;
+				}
+			}
+			else if (IsFullFramework)
+			{
+				string frameworkVersion = FrameworkVersionHelper.GetCurrentNetFrameworkVersion();
+				string clrVersion = Environment.Version.ToString();
+				return $".NET Framework {frameworkVersion} (CLR {clrVersion})";
+			}
+			else if (IsNetCore)
+			{
+				string runtimeVersion = GetNetCoreVersion() ?? "?";
 
-                var coreclrAssemblyInfo = FileVersionInfo.GetVersionInfo(typeof(object).GetTypeInfo().Assembly.Location);
-                var corefxAssemblyInfo = FileVersionInfo.GetVersionInfo(typeof(Regex).GetTypeInfo().Assembly.Location);
+				var coreclrAssemblyInfo = FileVersionInfo.GetVersionInfo(typeof(object).GetTypeInfo().Assembly.Location);
+				var corefxAssemblyInfo = FileVersionInfo.GetVersionInfo(typeof(Regex).GetTypeInfo().Assembly.Location);
 
-                return $".NET Core {runtimeVersion} (CoreCLR {coreclrAssemblyInfo.FileVersion}, CoreFX {corefxAssemblyInfo.FileVersion})";
-            }
-            else if (IsCoreRT)
+				return $".NET Core {runtimeVersion} (CoreCLR {coreclrAssemblyInfo.FileVersion}, CoreFX {corefxAssemblyInfo.FileVersion})";
+			}
+			if (IsCoreRT)
             {
                 return FrameworkDescription.Replace("Core ", "CoreRT ");
             }
@@ -225,9 +224,19 @@ namespace BenchmarkDotNet.Portability
                     .Select(module => new JitModule(Path.GetFileNameWithoutExtension(module.FileName), module.FileVersionInfo.ProductVersion));
         }
 
-        internal static string GetJitModulesInfo() => string.Join(";", GetJitModules().Select(m => m.Name + "-v" + m.Version));
+		internal static string GetJitModulesInfo()
+		{
+            try
+            {
+                return string.Join(";", GetJitModules().Select(m => m.Name + "-v" + m.Version));
+            }
+            catch(Exception e)
+			{
+                return "GetJitModules is not supported";
+			}
+		}
 
-        internal static bool HasRyuJit()
+		internal static bool HasRyuJit()
         {
             if (IsMono)
                 return false;
