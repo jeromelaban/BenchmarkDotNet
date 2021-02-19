@@ -6,7 +6,8 @@
     <AssemblyName>BenchmarkDotNet.Annotations</AssemblyName>
     <PackageId>Uno.BenchmarkDotNet.Annotations</PackageId>
     <RootNamespace>BenchmarkDotNet</RootNamespace>
-  </PropertyGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
   <ItemGroup>
     <Compile Include="..\BenchmarkDotNet\Helpers\CodeAnnotations.cs" Link="Attributes\CodeAnnotations.cs" />
   </ItemGroup>
