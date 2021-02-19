@@ -6,8 +6,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn>$(NoWarn);1701;1702;1705;1591;3005;NU1702</NoWarn>
     <AssemblyName>BenchmarkDotNet</AssemblyName>
-    <PackageId>BenchmarkDotNet</PackageId>
+    <PackageId>Uno.BenchmarkDotNet</PackageId>
     <RootNamespace>BenchmarkDotNet</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Templates\*" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />

@@ -4,9 +4,10 @@
     <AssemblyTitle>BenchmarkDotNet.Annotations</AssemblyTitle>
     <TargetFrameworks>netstandard1.0;netstandard2.0</TargetFrameworks>
     <AssemblyName>BenchmarkDotNet.Annotations</AssemblyName>
-    <PackageId>BenchmarkDotNet.Annotations</PackageId>
+    <PackageId>Uno.BenchmarkDotNet.Annotations</PackageId>
     <RootNamespace>BenchmarkDotNet</RootNamespace>
-  </PropertyGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
   <ItemGroup>
     <Compile Include="..\BenchmarkDotNet\Helpers\CodeAnnotations.cs" Link="Attributes\CodeAnnotations.cs" />
   </ItemGroup>

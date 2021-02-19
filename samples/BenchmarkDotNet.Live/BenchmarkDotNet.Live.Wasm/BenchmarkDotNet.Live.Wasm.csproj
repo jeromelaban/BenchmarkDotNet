@@ -7,7 +7,7 @@
     <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
     <NoWarn>NU1701</NoWarn>
     <WasmShellGenerateCompressedFiles Condition="'$(Configuration)'!='Release'">false</WasmShellGenerateCompressedFiles>
-    <WasmShellMonoRuntimeExecutionMode Condition="$([MSBuild]::IsOsUnixLike())">InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>
+    <!--<WasmShellMonoRuntimeExecutionMode Condition="$([MSBuild]::IsOsUnixLike())">InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>-->
     <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -80,11 +80,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Uno.UI" Version="1.45.0-dev.1067" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.0-dev.238" />
+    <PackageReference Include="Uno.UI.WebAssembly" Version="3.5.1" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.3.6" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.10.0" />
-    <PackageReference Include="Uno.UI.Sample.Banner" Version="1.44.0-dev.14" />
-    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.0-dev.238" />
+    <PackageReference Include="Uno.UI.Sample.Banner" Version="1.44.0-dev.33" />
+		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.3.6" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\BenchmarkDotNet.Annotations\BenchmarkDotNet.Annotations.csproj" />
