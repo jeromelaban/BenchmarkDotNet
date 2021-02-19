@@ -61,6 +61,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Live", "Live", "{10595247-5
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		samples\BenchmarkDotNet.Live\BenchmarkDotNet.Live.Shared\BenchmarkDotNet.Live.Shared.projitems*{024a476e-c581-4057-a1cf-30337313b4eb}*SharedItemsImports = 5
 		samples\BenchmarkDotNet.Live\BenchmarkDotNet.Live.Shared\BenchmarkDotNet.Live.Shared.projitems*{0c78da44-f623-4900-beff-acdba85d3487}*SharedItemsImports = 4
 		samples\BenchmarkDotNet.Live\BenchmarkDotNet.Live.Shared\BenchmarkDotNet.Live.Shared.projitems*{6279c845-92f8-4333-ab99-3d213163593c}*SharedItemsImports = 13
 		samples\BenchmarkDotNet.Live\BenchmarkDotNet.Live.Shared\BenchmarkDotNet.Live.Shared.projitems*{6579bab8-4ebe-4892-b1bc-221daba52803}*SharedItemsImports = 4
