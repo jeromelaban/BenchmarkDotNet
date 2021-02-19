@@ -52,26 +52,33 @@ namespace BenchmarkDotNet.Toolchains.DotNetCli
         
         internal static string GetDotNetSdkVersion()
         {
-            using (var process = new Process { StartInfo = BuildStartInfo(customDotNetCliPath: null, workingDirectory: string.Empty, arguments: "--version") })
-            using (new ConsoleExitHandler(process, NullLogger.Instance))
+            try
             {
-                try
+                using (var process = new Process { StartInfo = BuildStartInfo(customDotNetCliPath: null, workingDirectory: string.Empty, arguments: "--version") })
+                using (new ConsoleExitHandler(process, NullLogger.Instance))
                 {
-                    process.Start();
+                    try
+                    {
+                        process.Start();
+                    }
+                    catch (Win32Exception) // dotnet cli is not installed
+                    {
+                        return null;
+                    }
+
+                    string output = process.StandardOutput.ReadToEnd();
+
+                    process.WaitForExit();
+
+                    // first line contains something like ".NET Command Line Tools (1.0.0-beta-001603)"
+                    return Regex.Split(output, Environment.NewLine, RegexOptions.Compiled)
+                        .FirstOrDefault(line => !string.IsNullOrEmpty(line));
                 }
-                catch (Win32Exception) // dotnet cli is not installed
-                {
-                    return null;
-                }
-
-                string output = process.StandardOutput.ReadToEnd();
-
-                process.WaitForExit();
-
-                // first line contains something like ".NET Command Line Tools (1.0.0-beta-001603)"
-                return Regex.Split(output, Environment.NewLine, RegexOptions.Compiled)
-                    .FirstOrDefault(line => !string.IsNullOrEmpty(line));
             }
+			catch(NotSupportedException ex)
+			{
+                return "unknown";
+			}
         }
 
         internal static ProcessStartInfo BuildStartInfo(string customDotNetCliPath, string workingDirectory, string arguments,
