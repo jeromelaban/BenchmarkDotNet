@@ -16,31 +16,39 @@ namespace BenchmarkDotNet.Helpers
         [CanBeNull]
         internal static string RunAndReadOutput(string fileName, string arguments = "", ILogger logger = null)
         {
-            var processStartInfo = new ProcessStartInfo
+            try
             {
-                FileName = fileName,
-                WorkingDirectory = "",
-                Arguments = arguments,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            using (var process = new Process { StartInfo = processStartInfo })
-            using (new ConsoleExitHandler(process, logger ?? NullLogger.Instance))
-            {
-                try
+                var processStartInfo = new ProcessStartInfo
                 {
-                    process.Start();
-                }
-                catch (Exception)
+                    FileName = fileName,
+                    WorkingDirectory = "",
+                    Arguments = arguments,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+                using (var process = new Process { StartInfo = processStartInfo })
+                using (new ConsoleExitHandler(process, logger ?? NullLogger.Instance))
                 {
-                    return null;
+                    try
+                    {
+                        process.Start();
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+                    string output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+                    return output;
                 }
-                string output = process.StandardOutput.ReadToEnd();
-                process.WaitForExit();
-                return output;
             }
+            catch(Exception)
+			{
+                // May fail on iOS (ConsoleExitHandler is not supported)
+                return null;
+			}
         }
 
         internal static (int exitCode, ImmutableArray<string> output) RunAndReadOutputLineByLine(string fileName, string arguments = "", string workingDirectory = "",
